@@ -12,7 +12,7 @@ const FaceDetector: React.FC = () => {
   const [isModelLoaded, setIsModelLoaded] = useState(false);
   const [facesDetected, setFacesDetected] = useState(0);
   const [detectionEnabled, setDetectionEnabled] = useState(true);
-  const detectionInterval = useRef<NodeJS.Timeout>();
+  const detectionInterval = useRef<ReturnType<typeof setInterval>>(0);
 
   const videoConstraints = {
     width: VIDEO_WIDTH,
@@ -79,7 +79,7 @@ const FaceDetector: React.FC = () => {
   // Configurar el intervalo de detección cuando los modelos están cargados
   useEffect(() => {
     if (isModelLoaded && detectionEnabled) {
-      detectionInterval.current = setInterval(detectFaces, 100);
+      detectionInterval.current = setInterval(detectFaces, 10000);
     } else if (detectionInterval.current) {
       clearInterval(detectionInterval.current);
     }
